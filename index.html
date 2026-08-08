@@ -1,0 +1,1693 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src 'unsafe-inline' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>魚機決策台：AI、人工與製作流程</title>
+<style>:root{color-scheme:light dark;background:light-dark(rgb(255 255 255), rgb(24 24 24))}html,body{margin:0}body{box-sizing:border-box;padding:1rem;background:inherit}iframe{display:block;width:100%;height:calc(100vh - 2rem);margin:0 auto;border:0}</style>
+</head>
+<body>
+<iframe sandbox="allow-scripts" referrerpolicy="no-referrer" title="魚機決策台：AI、人工與製作流程" srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+&lt;meta name=&quot;referrer&quot; content=&quot;no-referrer&quot;&gt;
+&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &#x27;none&#x27;; script-src &#x27;unsafe-inline&#x27; &#x27;unsafe-eval&#x27; &#x27;wasm-unsafe-eval&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src &#x27;unsafe-inline&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src &#x27;none&#x27;; object-src &#x27;none&#x27;; base-uri &#x27;none&#x27;; form-action &#x27;none&#x27;&quot;&gt;
+&lt;title&gt;魚機決策台：AI、人工與製作流程&lt;/title&gt;
+&lt;style&gt;:root {
+  color-scheme: light dark;
+  background-color: var(
+    --background,
+    var(--color-background-primary, light-dark(rgb(255 255 255), rgb(24 24 24)))
+  ) !important;
+
+  /* Agent-facing contract; keep in sync with SKILL.md. */
+  --background: var(
+    --color-background-primary,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --card: color-mix(in oklab, var(--foreground) 5%, var(--background));
+  --card-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --popover: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255), rgb(45 45 45))
+  );
+  --popover-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --primary: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --primary-foreground: var(
+    --color-text-inverse,
+    light-dark(rgb(255 255 255), rgb(13 13 13))
+  );
+  --secondary: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255 / 96%), rgb(54 54 54 / 96%))
+  );
+  --secondary-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --muted: color-mix(in srgb, var(--foreground) 10%, transparent);
+  --muted-foreground: var(
+    --color-text-secondary,
+    light-dark(rgb(26 28 31 / 49.4%), rgb(255 255 255 / 49.8%))
+  );
+  --accent: var(
+    --color-background-info,
+    light-dark(rgb(229 242 255), rgb(13 39 63))
+  );
+  --accent-foreground: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --destructive: var(
+    --color-text-warning,
+    light-dark(rgb(226 85 7), rgb(255 133 73))
+  );
+  --border: var(
+    --color-border-secondary,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+  --input: var(
+    --color-border-primary,
+    light-dark(
+      rgb(26 28 31 / 11.8%),
+      color-mix(in oklab, rgb(0 0 0) 10%, transparent)
+    )
+  );
+  --ring: var(
+    --color-ring-primary,
+    light-dark(rgb(51 156 255), rgb(131 195 255 / 76%))
+  );
+  --font-size-base: var(--font-text-md-size, 14px);
+  --blue: light-dark(rgb(51 156 255), rgb(51 156 255));
+  --orange: light-dark(rgb(226 85 7), rgb(251 106 34));
+  --green: light-dark(rgb(0 162 64), rgb(64 201 119));
+  --red: light-dark(rgb(224 46 42), rgb(255 103 100));
+  --purple: light-dark(rgb(146 79 247), rgb(173 123 249));
+  --yellow: light-dark(rgb(255 195 0), rgb(255 210 64));
+  --viz-series-1: var(--primary);
+  --viz-series-2: light-dark(rgb(243 136 59), rgb(245 154 86));
+  --viz-series-3: light-dark(rgb(93 201 119), rgb(116 213 139));
+  --viz-series-4: light-dark(rgb(235 119 177), rgb(240 143 192));
+  --viz-series-5: light-dark(rgb(155 121 236), rgb(170 145 239));
+  --viz-series-6: light-dark(rgb(58 185 177), rgb(90 203 194));
+
+  /* Internal implementation variables; not part of the agent contract. */
+  --font-sans: -apple-system, system-ui, &quot;Segoe UI&quot;, sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, &quot;SF Mono&quot;, Menlo, Consolas, &quot;Liberation Mono&quot;,
+    monospace;
+  --font-size-normal: max(11px, var(--font-size-base));
+  --font-size-tooltip: calc(var(--font-size-base) - 1px);
+  --font-size-small: max(11px, calc(var(--font-size-base) - 2px));
+  --font-size-h1: calc(var(--font-size-normal) * 1.7142857143);
+  --font-size-h2: calc(var(--font-size-normal) * 1.4285714286);
+  --font-size-h3: calc(var(--font-size-normal) * 1.2857142857);
+  --font-weight-normal: 430;
+  --font-weight-medium: 500;
+  --line-height-normal: calc(var(--font-size-normal) * 1.5);
+  --line-height-tooltip: calc(var(--font-size-tooltip) * 1.4285714286);
+  --line-height-small: calc(var(--font-size-small) + 4px);
+  --radius: var(--border-radius-lg, 12.5px);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-2xl: calc(var(--radius) * 1.6);
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 2px -1px rgb(0 0 0 / 8%);
+  --checkmark-image: url(&quot;data:image/svg+xml,%3Csvg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; viewBox=&#x27;0 0 17 17&#x27;%3E%3Cpath d=&#x27;M12.8961 3.64101C13.1297 3.41418 13.4984 3.37523 13.7779 3.56581C14.0571 3.75635 14.1554 4.11331 14.0299 4.41347L13.9615 4.53847L7.71151 13.7045C7.59411 13.8767 7.4063 13.9877 7.19881 14.0072C6.99136 14.0267 6.78564 13.9533 6.63826 13.806L2.88826 10.056L2.79842 9.9457C2.6192 9.67407 2.64927 9.30496 2.88826 9.06581C3.12738 8.82669 3.49647 8.79676 3.76815 8.97597L3.8785 9.06581L7.03084 12.2182L12.8053 3.74941L12.8961 3.64101Z&#x27;/%3E%3C/svg%3E&quot;);
+
+  /* Legacy aliases; not part of the current agent contract. */
+  --viz-bg: transparent;
+  --viz-panel: var(--card);
+  --viz-border: var(--border);
+  --viz-text: var(--foreground);
+  --viz-muted: var(--muted-foreground);
+  --viz-accent: var(--primary);
+  --viz-accent-text: var(--primary-foreground);
+  --viz-accent-bg: var(--accent);
+  --viz-font-size: var(--font-size-base);
+  --viz-warning: var(--destructive);
+}
+
+:root[data-theme=&quot;light&quot;] {
+  color-scheme: light;
+}
+
+:root[data-theme=&quot;dark&quot;] {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html &gt; body {
+  /* Preserve MCP aliases for older inline renderers without creating :root cycles. */
+  --color-background-primary: var(
+    --background,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --color-text-primary: var(
+    --foreground,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --color-border-secondary: var(
+    --border,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+
+  margin: 0;
+  padding: 5px;
+  color: var(--foreground);
+  background: transparent !important;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-normal);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+}
+
+a {
+  color: color-mix(in srgb, var(--viz-accent) 80%, var(--viz-text) 20%);
+  cursor: pointer;
+  font-weight: var(--font-weight-medium, 500);
+  text-decoration: none;
+  text-underline-offset: 2px;
+}
+
+a:is(:hover, :focus-visible) {
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-decoration-thickness: 0.5px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-block: 0;
+}
+
+h1 {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h3,
+h4,
+h5,
+h6 {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.3;
+}
+
+b,
+strong,
+th {
+  font-weight: var(--font-weight-medium);
+}
+
+code:not(pre code) {
+  display: inline;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  corner-shape: superellipse(1.5);
+  background: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  overflow-wrap: anywhere;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  word-break: break-word;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--foreground);
+  font: inherit;
+  text-align: start;
+}
+
+.table :is(th, td) {
+  padding-block: 10px;
+  padding-inline: 0 24px;
+  overflow-wrap: anywhere;
+  border-bottom: 1px solid var(--border);
+  text-align: start;
+  vertical-align: top;
+}
+
+.table-responsive &gt; .table :is(th, td) {
+  overflow-wrap: break-word;
+}
+
+.table :is(th, td):last-child {
+  padding-inline-end: 0;
+}
+
+.table :is(caption, thead th) {
+  font-weight: 600;
+}
+
+.table thead th {
+  padding-block: 8px;
+  border-bottom-color: color-mix(in srgb, var(--foreground) 16%, transparent);
+}
+
+.table tbody tr:last-child :is(th, td) {
+  border-bottom: 0;
+}
+
+.table.table-sm :is(th, td) {
+  padding-block: 6px;
+}
+
+.table.table-sm :is(th, td):not(:last-child) {
+  padding-inline-end: 16px;
+}
+
+.table :is(.text-end, [align=&quot;right&quot;]) {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+
+.table :is(.text-center, [align=&quot;center&quot;]) {
+  text-align: center;
+}
+
+.table .text-nowrap {
+  white-space: nowrap;
+}
+
+#widget {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: 0;
+  background: transparent !important;
+}
+
+.card {
+  min-width: 0;
+  padding: 12px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  border-radius: var(--radius-2xl);
+  corner-shape: superellipse(1.5);
+  color: var(--card-foreground);
+  background: var(--card);
+}
+
+#widget &gt; :not(.card) {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.tooltip {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  width: max-content;
+  max-width: min(
+    20rem,
+    var(--tooltip-available-width, calc(100vw - 10px)),
+    calc(100vw - 10px)
+  );
+  max-height: min(
+    var(--tooltip-available-height, calc(100vh - 10px)),
+    calc(100vh - 10px)
+  );
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--popover-foreground);
+  background: var(--popover);
+  box-shadow: none;
+  font-size: var(--font-size-tooltip);
+  line-height: var(--line-height-tooltip);
+  overflow-wrap: break-word;
+  white-space: normal;
+  pointer-events: none;
+  user-select: none;
+}
+
+.viz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(max(180px, 24%), 1fr));
+  gap: 10px;
+}
+
+.viz-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.viz-stat-value {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+.viz-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.viz-badge {
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  color: var(--accent-foreground);
+  background: var(--accent);
+  font-weight: var(--font-weight-medium);
+}
+
+small,
+.text-small,
+.viz-badge {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+.text-muted {
+  color: var(--muted-foreground);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.viz-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.viz-controls &gt; .form-label {
+  display: grid;
+  min-width: min(100%, 260px);
+  flex: 1 1 280px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 2px 12px;
+  margin-bottom: 0;
+}
+
+.viz-controls &gt; .form-label &gt; :is(.form-control, .form-range, .form-select) {
+  grid-column: 1 / -1;
+}
+
+.btn,
+.form-check-input,
+.form-control,
+.form-range,
+.form-select {
+  font: inherit;
+}
+
+.btn {
+  appearance: button;
+  display: inline-flex;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  min-height: 28px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0 8px;
+  -webkit-app-region: no-drag;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: var(--cursor-interaction, pointer);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+.btn:is(.btn-block, .viz-tile) {
+  inline-size: 100%;
+}
+
+.btn.viz-tile {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+a.btn {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.btn-primary {
+  border-color: transparent;
+  color: var(--primary-foreground);
+  background: var(--foreground);
+  background-clip: padding-box;
+}
+
+.btn-primary .text-muted {
+  color: color-mix(in srgb, var(--primary-foreground) 50%, transparent);
+}
+
+.btn-primary:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 80%, transparent);
+  background-clip: padding-box;
+}
+
+.btn-ghost {
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.btn-ghost:not(:disabled):hover {
+  color: var(--foreground);
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+[data-lucide] {
+  stroke-width: 1.6;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--foreground);
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  padding: 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--foreground);
+  background: var(--secondary);
+}
+
+.form-control::placeholder {
+  color: var(--muted-foreground);
+}
+
+.form-control[type=&quot;file&quot;] {
+  padding: 0;
+  overflow: hidden;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control[type=&quot;file&quot;]::file-selector-button {
+  min-height: 26px;
+  margin-right: 8px;
+  padding: 0 8px;
+  border: 0;
+  border-right: 1px solid var(--input);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: inherit;
+  font: inherit;
+}
+
+.form-control[type=&quot;file&quot;]:not(:disabled):hover::file-selector-button {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-control-color[type=&quot;color&quot;] {
+  width: 40px;
+  height: 28px;
+  padding: 3px;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control-color[type=&quot;color&quot;]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.form-control-color[type=&quot;color&quot;]::-webkit-color-swatch {
+  border: 0;
+  border-radius: calc(var(--radius-lg) - 4px);
+  corner-shape: superellipse(1.5);
+}
+
+textarea.form-control {
+  height: auto;
+  min-height: 72px;
+  padding: 8px 10px;
+  resize: vertical;
+}
+
+.form-control:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-control:disabled,
+.form-select:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.form-select {
+  appearance: none;
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  margin: 0;
+  padding: 0 32px 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--foreground);
+  background-color: var(--secondary);
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--muted-foreground) 50%),
+    linear-gradient(135deg, var(--muted-foreground) 50%, transparent 50%);
+  background-position:
+    calc(100% - 14px) 50%,
+    calc(100% - 10px) 50%;
+  background-repeat: no-repeat;
+  background-size: 4px 4px;
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-select:not(:disabled):hover {
+  background-color: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-select:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-check {
+  display: flex;
+  min-height: 20px;
+  align-items: center;
+  gap: 6px;
+}
+
+.form-check-input {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  margin: 0;
+  border: 1px solid var(--input);
+  color: var(--primary-foreground);
+  background-color: transparent;
+  cursor: var(--cursor-interaction, default);
+  transition:
+    background-color 150ms,
+    border-color 150ms,
+    box-shadow 150ms;
+}
+
+.form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;] {
+  border-color: var(--input);
+  border-radius: var(--radius-sm);
+  corner-shape: superellipse(1.5);
+  background-color: var(--secondary);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input:not(:disabled):not(:checked):hover {
+  background-color: var(--card);
+}
+
+.form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;]:checked {
+  border-color: var(--primary);
+  background-color: var(--primary);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input[type=&quot;checkbox&quot;]:checked::before {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--primary-foreground);
+  content: &quot;&quot;;
+  mask: var(--checkmark-image) center / 12px 12px no-repeat;
+}
+
+.form-check-input[type=&quot;radio&quot;] {
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-full);
+}
+
+.form-check-input[type=&quot;radio&quot;]:checked {
+  border: 2px solid var(--primary);
+  background:
+    radial-gradient(circle, var(--primary-foreground) 0 2.5px, transparent 3px),
+    var(--primary);
+}
+
+.form-check:not(.form-switch) .form-check-input:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+}
+
+.form-switch .form-check-input:disabled,
+.form-switch .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-check-label {
+  color: var(--foreground);
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-switch .form-check-input {
+  position: relative;
+  width: 32px;
+  height: 20px;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+  box-shadow: none;
+  transition: background-color 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input::before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border: 1px solid light-dark(var(--primary-foreground), var(--foreground));
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+  box-shadow: var(--shadow-sm);
+  content: &quot;&quot;;
+  transform: translate(2px, -50%);
+  transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input:checked {
+  background: var(--primary);
+}
+
+.form-switch .form-check-input:checked::before {
+  transform: translate(14px, -50%);
+}
+
+.form-switch .form-check-input:focus-visible {
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.form-range {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 28px;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: 0;
+  accent-color: var(--primary);
+  background: linear-gradient(
+      color-mix(in srgb, var(--foreground) 7%, transparent),
+      color-mix(in srgb, var(--foreground) 7%, transparent)
+    )
+    center / 100% 2px no-repeat;
+}
+
+.form-range::-webkit-slider-runnable-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-webkit-slider-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range::-moz-range-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-moz-range-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.btn:not(.btn-primary, .viz-tile):is(
+    [aria-pressed=&quot;true&quot;],
+    [aria-selected=&quot;true&quot;],
+    .is-selected
+  ) {
+  border-color: var(--primary);
+  color: var(--primary-foreground);
+  background: var(--primary);
+}
+
+.btn.viz-tile:is([aria-pressed=&quot;true&quot;], [aria-selected=&quot;true&quot;], .is-selected) {
+  border-color: var(--primary);
+  box-shadow: inset 0 0 0 1px var(--primary);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+#widget &gt; svg {
+  width: 100%;
+}
+
+/* Model-authored chart rules can otherwise stretch icons after these styles load. */
+svg.lucide {
+  display: block;
+  width: 16px !important;
+  height: 16px !important;
+  flex: none;
+  margin: 0 !important;
+  stroke-width: 1.6;
+}
+
+.text-warning,
+.text-destructive {
+  color: var(--destructive);
+}
+
+html&gt;body{padding:0}&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div id=&quot;ai-human-fishgame-workflow&quot;&gt;
+  &lt;style&gt;
+    #ai-human-fishgame-workflow {
+      --ah-human: var(--viz-series-3);
+      --ah-ai: var(--viz-series-5);
+      --ah-system: var(--viz-series-1);
+      --ah-gate: var(--viz-series-4);
+      color: var(--foreground);
+      width: 100%;
+    }
+    #ai-human-fishgame-workflow * { box-sizing: border-box; }
+    #ai-human-fishgame-workflow .ah-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.9rem;
+    }
+    #ai-human-fishgame-workflow .ah-head h2 { margin: 0; }
+    #ai-human-fishgame-workflow .ah-head p {
+      margin: 0.25rem 0 0;
+      color: var(--muted-foreground);
+    }
+    #ai-human-fishgame-workflow .ah-controls { margin: 0; }
+    #ai-human-fishgame-workflow .ah-legend {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.9rem;
+      color: var(--muted-foreground);
+    }
+    #ai-human-fishgame-workflow .ah-legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    #ai-human-fishgame-workflow .ah-dot {
+      width: 0.8rem;
+      height: 0.8rem;
+      border-radius: 50%;
+      background: var(--border);
+    }
+    #ai-human-fishgame-workflow .ah-dot.human { background: var(--ah-human); }
+    #ai-human-fishgame-workflow .ah-dot.ai { background: var(--ah-ai); }
+    #ai-human-fishgame-workflow .ah-dot.system { background: var(--ah-system); }
+    #ai-human-fishgame-workflow .ah-dot.gate { background: var(--ah-gate); }
+    #ai-human-fishgame-workflow .ah-map {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(170px, 0.85fr) 40px minmax(480px, 2.6fr) 40px minmax(185px, 0.95fr);
+      align-items: stretch;
+      gap: 0.4rem;
+    }
+    #ai-human-fishgame-workflow .ah-stage {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1rem;
+      background: color-mix(in srgb, var(--card) 86%, transparent);
+      min-width: 0;
+    }
+    #ai-human-fishgame-workflow .ah-stage.stage-one {
+      background: color-mix(in srgb, var(--ah-human) 10%, var(--card));
+    }
+    #ai-human-fishgame-workflow .ah-stage.stage-two {
+      background: color-mix(in srgb, var(--ah-ai) 10%, var(--card));
+    }
+    #ai-human-fishgame-workflow .ah-stage.stage-three {
+      background: color-mix(in srgb, var(--ah-system) 10%, var(--card));
+    }
+    #ai-human-fishgame-workflow .ah-stage-title {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      margin-bottom: 0.8rem;
+    }
+    #ai-human-fishgame-workflow .ah-page {
+      display: inline-grid;
+      place-items: center;
+      min-width: 3rem;
+      min-height: 2rem;
+      border-radius: 999px;
+      background: var(--primary);
+      color: var(--primary-foreground);
+      font-weight: 500;
+    }
+    #ai-human-fishgame-workflow .ah-stage-title b { font-weight: 500; }
+    #ai-human-fishgame-workflow .ah-flow-arrow {
+      display: grid;
+      place-items: center;
+      color: var(--muted-foreground);
+      font-size: 1.5rem;
+    }
+    #ai-human-fishgame-workflow .ah-node {
+      appearance: none;
+      width: 100%;
+      text-align: left;
+      color: var(--foreground);
+      background: transparent;
+      border: 0;
+      border-left: 6px solid var(--border);
+      padding: 0.65rem 0.7rem;
+      margin: 0;
+      cursor: pointer;
+    }
+    #ai-human-fishgame-workflow .ah-node + .ah-node { margin-top: 0.55rem; }
+    #ai-human-fishgame-workflow .ah-node:hover,
+    #ai-human-fishgame-workflow .ah-node:focus-visible,
+    #ai-human-fishgame-workflow .ah-node[aria-pressed=&quot;true&quot;] {
+      background: color-mix(in srgb, var(--accent) 15%, transparent);
+    }
+    #ai-human-fishgame-workflow .ah-node[data-owner=&quot;human&quot;] { border-left-color: var(--ah-human); }
+    #ai-human-fishgame-workflow .ah-node[data-owner=&quot;ai&quot;] { border-left-color: var(--ah-ai); }
+    #ai-human-fishgame-workflow .ah-node[data-owner=&quot;system&quot;] { border-left-color: var(--ah-system); }
+    #ai-human-fishgame-workflow .ah-node[data-owner=&quot;gate&quot;] { border-left-color: var(--ah-gate); }
+    #ai-human-fishgame-workflow .ah-node b,
+    #ai-human-fishgame-workflow .ah-node span { display: block; }
+    #ai-human-fishgame-workflow .ah-node b { font-weight: 500; }
+    #ai-human-fishgame-workflow .ah-node span {
+      color: var(--muted-foreground);
+      margin-top: 0.25rem;
+    }
+    #ai-human-fishgame-workflow .ah-node small {
+      display: inline-block;
+      color: var(--foreground);
+      margin-top: 0.35rem;
+      padding: 0.15rem 0.35rem;
+      border-bottom: 2px solid currentColor;
+    }
+    #ai-human-fishgame-workflow .ah-middle-top {
+      display: grid;
+      grid-template-columns: minmax(145px, 0.85fr) 24px minmax(180px, 1.15fr) 24px minmax(160px, 1fr);
+      align-items: center;
+      gap: 0.3rem;
+    }
+    #ai-human-fishgame-workflow .ah-mini-arrow {
+      text-align: center;
+      color: var(--muted-foreground);
+    }
+    #ai-human-fishgame-workflow .ah-branches {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+      gap: 0.6rem;
+      margin-top: 0.8rem;
+      padding-top: 0.8rem;
+      border-top: 1px solid var(--border);
+    }
+    #ai-human-fishgame-workflow .ah-branch {
+      min-width: 0;
+    }
+    #ai-human-fishgame-workflow .ah-gatebar {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.4rem;
+      margin-top: 0.8rem;
+    }
+    #ai-human-fishgame-workflow .ah-gatebar div {
+      border-top: 3px solid var(--ah-gate);
+      padding-top: 0.35rem;
+    }
+    #ai-human-fishgame-workflow .ah-gatebar span {
+      display: block;
+      color: var(--muted-foreground);
+      margin-top: 0.15rem;
+    }
+    #ai-human-fishgame-workflow .ah-detail {
+      margin-top: 0.9rem;
+      min-height: 3rem;
+      display: flex;
+      align-items: center;
+    }
+    #ai-human-fishgame-workflow .ah-hidden-work {
+      margin-top: 1rem;
+      border-top: 1px solid var(--border);
+      padding-top: 0.9rem;
+    }
+    #ai-human-fishgame-workflow .ah-hidden-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.7rem;
+    }
+    #ai-human-fishgame-workflow .ah-hidden-head h3 { margin: 0; }
+    #ai-human-fishgame-workflow .ah-hidden-head span { color: var(--muted-foreground); }
+    #ai-human-fishgame-workflow .ah-hidden-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+    #ai-human-fishgame-workflow .ah-hidden-col {
+      border-top: 5px solid var(--border);
+      padding-top: 0.65rem;
+    }
+    #ai-human-fishgame-workflow .ah-hidden-col.ai { border-top-color: var(--ah-ai); }
+    #ai-human-fishgame-workflow .ah-hidden-col.human { border-top-color: var(--ah-human); }
+    #ai-human-fishgame-workflow .ah-hidden-col.system { border-top-color: var(--ah-system); }
+    #ai-human-fishgame-workflow .ah-hidden-col h4 { margin: 0 0 0.45rem; font-weight: 500; }
+    #ai-human-fishgame-workflow .ah-hidden-col ul {
+      margin: 0;
+      padding-left: 1.2rem;
+      color: var(--muted-foreground);
+    }
+    #ai-human-fishgame-workflow .ah-hidden-col li + li { margin-top: 0.3rem; }
+    #ai-human-fishgame-workflow .ah-cross-cutting {
+      margin-top: 1rem;
+      border-top: 1px solid var(--border);
+      padding-top: 0.9rem;
+    }
+    #ai-human-fishgame-workflow .ah-cross-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+      gap: 0.55rem;
+      margin-top: 0.7rem;
+    }
+    #ai-human-fishgame-workflow .ah-risk {
+      min-height: 100%;
+    }
+    #ai-human-fishgame-workflow .ah-risk[data-owner=&quot;shared&quot;] {
+      border-left-color: var(--ah-gate);
+    }
+    #ai-human-fishgame-workflow .ah-loop {
+      margin-top: 1rem;
+      border-top: 1px solid var(--border);
+      padding-top: 0.9rem;
+    }
+    #ai-human-fishgame-workflow .ah-loop-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.7rem;
+    }
+    #ai-human-fishgame-workflow .ah-loop-head h3 { margin: 0; }
+    #ai-human-fishgame-workflow .ah-loop-head span { color: var(--muted-foreground); }
+    #ai-human-fishgame-workflow .ah-loop-track {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 1.4rem;
+      align-items: stretch;
+    }
+    #ai-human-fishgame-workflow .ah-loop-step {
+      position: relative;
+      border-top: 4px solid var(--ah-ai);
+      padding-top: 0.55rem;
+    }
+    #ai-human-fishgame-workflow .ah-loop-step.human { border-top-color: var(--ah-human); }
+    #ai-human-fishgame-workflow .ah-loop-step.system { border-top-color: var(--ah-system); }
+    #ai-human-fishgame-workflow .ah-loop-step:not(:last-child)::after {
+      content: &quot;→&quot;;
+      position: absolute;
+      right: -1.05rem;
+      top: 0.35rem;
+      color: var(--muted-foreground);
+    }
+    #ai-human-fishgame-workflow .ah-loop-step b { display: block; font-weight: 500; }
+    #ai-human-fishgame-workflow .ah-loop-step span {
+      display: block;
+      color: var(--muted-foreground);
+      margin-top: 0.25rem;
+    }
+    #ai-human-fishgame-workflow .ah-focus-ai [data-owner]:not([data-owner=&quot;ai&quot;]),
+    #ai-human-fishgame-workflow .ah-focus-human [data-owner]:not([data-owner=&quot;human&quot;]),
+    #ai-human-fishgame-workflow .ah-focus-system [data-owner]:not([data-owner=&quot;system&quot;]):not([data-owner=&quot;gate&quot;]) {
+      opacity: 0.28;
+    }
+    #ai-human-fishgame-workflow .ah-focus-ai .ah-loop-step:not(.ai),
+    #ai-human-fishgame-workflow .ah-focus-human .ah-loop-step:not(.human),
+    #ai-human-fishgame-workflow .ah-focus-system .ah-loop-step:not(.system) {
+      opacity: 0.28;
+    }
+    @media (max-width: 900px) {
+      #ai-human-fishgame-workflow .ah-map,
+      #ai-human-fishgame-workflow .ah-middle-top {
+        grid-template-columns: 1fr;
+      }
+      #ai-human-fishgame-workflow .ah-flow-arrow,
+      #ai-human-fishgame-workflow .ah-mini-arrow {
+        min-height: 24px;
+        transform: rotate(90deg);
+      }
+      #ai-human-fishgame-workflow .ah-branches,
+      #ai-human-fishgame-workflow .ah-loop-track,
+      #ai-human-fishgame-workflow .ah-hidden-grid {
+        grid-template-columns: 1fr;
+      }
+      #ai-human-fishgame-workflow .ah-loop-step:not(:last-child)::after {
+        content: &quot;↓&quot;;
+        right: auto;
+        left: 0;
+        top: auto;
+        bottom: -1.3rem;
+      }
+    }
+    @media (max-width: 520px) {
+      #ai-human-fishgame-workflow .ah-gatebar { grid-template-columns: 1fr; }
+    }
+  &lt;/style&gt;
+
+  &lt;div class=&quot;ah-head&quot;&gt;
+    &lt;div&gt;
+      &lt;h2&gt;魚機決策台：AI、人工、系統怎麼分工&lt;/h2&gt;
+      &lt;p&gt;規格一進來先看圖定方向，再由核准 2D 延伸影片、後製、3D、特效與正式工項。&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;viz-controls ah-controls&quot; role=&quot;group&quot; aria-label=&quot;責任聚焦&quot;&gt;
+      &lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-focus=&quot;all&quot; aria-pressed=&quot;true&quot;&gt;全部&lt;/button&gt;
+      &lt;button type=&quot;button&quot; class=&quot;btn&quot; data-focus=&quot;ai&quot; aria-pressed=&quot;false&quot;&gt;只看 AI&lt;/button&gt;
+      &lt;button type=&quot;button&quot; class=&quot;btn&quot; data-focus=&quot;human&quot; aria-pressed=&quot;false&quot;&gt;只看人工&lt;/button&gt;
+      &lt;button type=&quot;button&quot; class=&quot;btn&quot; data-focus=&quot;system&quot; aria-pressed=&quot;false&quot;&gt;只看系統&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;ah-legend&quot; aria-label=&quot;責任圖例&quot;&gt;
+    &lt;span&gt;&lt;i class=&quot;ah-dot human&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;人工：意圖、品味、核准&lt;/span&gt;
+    &lt;span&gt;&lt;i class=&quot;ah-dot ai&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;AI：分析、候選、修正建議&lt;/span&gt;
+    &lt;span&gt;&lt;i class=&quot;ah-dot system&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;系統：資料、Gate、匯出&lt;/span&gt;
+    &lt;span&gt;&lt;i class=&quot;ah-dot gate&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;Gate：未通過就停止&lt;/span&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;ah-content&quot;&gt;
+    &lt;div class=&quot;ah-map&quot; role=&quot;group&quot; aria-label=&quot;Page 1 到 Page 3 的完整流程&quot;&gt;
+      &lt;section class=&quot;ah-stage stage-one&quot;&gt;
+        &lt;div class=&quot;ah-stage-title&quot;&gt;&lt;span class=&quot;ah-page&quot;&gt;Page 1&lt;/span&gt;&lt;b&gt;定義需求&lt;/b&gt;&lt;/div&gt;
+        &lt;button type=&quot;button&quot; class=&quot;ah-node&quot; data-owner=&quot;human&quot; data-detail=&quot;人工負責定義：玩法目的、主題、必要資產、優先級與不可接受內容。這些是產品意圖，不能交給 AI 猜。&quot; aria-pressed=&quot;false&quot;&gt;
+          &lt;b&gt;企劃規格書&lt;/b&gt;
+          &lt;span&gt;玩法、主題、需求、限制&lt;/span&gt;
+          &lt;small&gt;人工負責&lt;/small&gt;
+        &lt;/button&gt;
+        &lt;button type=&quot;button&quot; class=&quot;ah-node&quot; data-owner=&quot;ai&quot; data-detail=&quot;AI 先把規格轉成可視化需求：主角、場景、玩法事件、報獎與必要資產。此時只建立生成方向，不先要求企劃填完整工項表。&quot; aria-pressed=&quot;false&quot;&gt;
+          &lt;b&gt;規格轉視覺任務&lt;/b&gt;
+          &lt;span&gt;主角、場景、事件、報獎、必要資產&lt;/span&gt;
+          &lt;small&gt;AI 理解與整理&lt;/small&gt;
+        &lt;/button&gt;
+        &lt;button type=&quot;button&quot; class=&quot;ah-node&quot; data-owner=&quot;gate&quot; data-detail=&quot;系統檢查規格來源、項目 ID、交付物與驗收條件是否完整；不完整就不能進入正式草案。&quot; aria-pressed=&quot;false&quot;&gt;
+          &lt;b&gt;G0 規格完整&lt;/b&gt;
+          &lt;span&gt;來源可追溯、欄位齊全&lt;/span&gt;
+        &lt;/button&gt;
+      &lt;/section&gt;
+
+      &lt;div class=&quot;ah-flow-arrow&quot; aria-hidden=&quot;true&quot;&gt;→&lt;/div&gt;
+
+      &lt;section class=&quot;ah-stage stage-two&quot;&gt;
+        &lt;div class=&quot;ah-stage-title&quot;&gt;&lt;span class=&quot;ah-page&quot;&gt;Page 2&lt;/span&gt;&lt;b&gt;先看圖定方向，再延伸製作 Reference&lt;/b&gt;&lt;/div&gt;
+        &lt;div class=&quot;ah-middle-top&quot;&gt;
+          &lt;button type=&quot;button&quot; class=&quot;ah-node&quot; data-owner=&quot;ai&quot; data-detail=&quot;AI 讀取規格與參考，先產出主角與整體美術方向圖，讓人可以直接看圖判斷，不必先讀完大量工項文字。&quot; aria-pressed=&quot;false&quot;&gt;
+            &lt;b&gt;AI 先產方向圖&lt;/b&gt;
+            &lt;span&gt;主角＋整體美術語言&lt;/span&gt;
+          &lt;/button&gt;
+          &lt;div class=&quot;ah-mini-arrow&quot; aria-hidden=&quot;true&quot;&gt;→&lt;/div&gt;
+          &lt;button type=&quot;button&quot; class=&quot;ah-node&quot; data-owner=&quot;ai&quot; data-detail=&quot;AI 提供 A／B／C 三種方向圖。這裡的目的只有一個：快速確定角色、材質、比例、色彩與主題語言。每次重產都保留舊候選。&quot; aria-pressed=&quot;false&quot;&gt;
+            &lt;b&gt;A／B／C 方向候選&lt;/b&gt;
+            &lt;span&gt;角色、材質、比例、色彩、主題&lt;/span&gt;
+          &lt;/button&gt;
+          &lt;div class=&quot;ah-mini-arrow&quot; aria-hidden=&quot;true&quot;&gt;→&lt;/div&gt;
+          &lt;button type=&quot;button&quot; class=&quot;ah-node&quot; data-owner=&quot;human&quot; data-detail=&quot;人工直接看圖選定方向，鎖定主角 DNA，留下採用或修正原因。這是唯一能決定正式方向的節點，AI 不得自行核准。&quot; aria-pressed=&quot;false&quot;&gt;
+            &lt;b&gt;人工看圖定方向&lt;/b&gt;
+            &lt;span&gt;選 DNA、鎖定、留下原因&lt;/span&gt;
+          &lt;/button&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;ah-branches&quot;&gt;
+          &lt;div class=&quot;ah-branch&quot;&gt;
+            &lt;button type=&quot;button&quot; class=&quot;ah-node&quot; data-owner=&quot;ai&quot; data-detail=&quot;方向鎖定後，AI 先產完整 2D 設計母版：角色全身、場景、物件、UI 與 FX sheet。後面的影片、3D、特效都要依賴這份核准 2D。&quot; aria-pressed=&quot;false&quot;&gt;
+              &lt;b&gt;① 2D 完整母版&lt;/b&gt;
+              &lt;span&gt;角色／場景／物件／UI／FX sheet&lt;/span&gt;
+              &lt;small&gt;先產、先審、先核准&lt;/small&gt;
+            &lt;/button&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;ah-branch&quot;&gt;
+            &lt;button type=&quot;button&quot; class=&quot;ah-node&quot; data-owner=&quot;ai&quot; data-detail=&quot;2D 母版核准後，AI 才產 idle、hit、in、loop、out 等影片 reference，讓動畫人員看到動作節奏與鏡頭結果。&quot; aria-pressed=&quot;false&quot;&gt;
+              &lt;b&gt;② 影片 Reference&lt;/b&gt;
+              &lt;span&gt;idle／hit／in／loop／out&lt;/span&gt;
+              &lt;small&gt;AI 影片，動畫製作參考&lt;/small&gt;
+            &lt;/button&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;ah-branch&quot;&gt;
+            &lt;button type=&quot;button&quot; class=&quot;ah-node&quot; data-owner=&quot;ai&quot; data-detail=&quot;AI 依玩法事件整理合成層、鏡頭、轉場、節奏與前後景關係，產出後製分鏡或合成 reference；正式剪輯與合成由後製人員完成。&quot; aria-pressed=&quot;false&quot;&gt;
+              &lt;b&gt;③ 後製 Reference&lt;/b&gt;
+              &lt;span&gt;分鏡／合成層／轉場／節奏&lt;/span&gt;
+              &lt;small&gt;AI 規劃，後製人工落地&lt;/small&gt;
+            &lt;/button&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;ah-branch&quot;&gt;
+            &lt;button type=&quot;button&quot; class=&quot;ah-node&quot; data-owner=&quot;ai&quot; data-detail=&quot;AI 依核准 2D 產生三視圖、材質拆解與 3D base reference；正式拓樸、UV、材質、骨架與可用模型仍由 3D 人員完成。&quot; aria-pressed=&quot;false&quot;&gt;
+              &lt;b&gt;④ 3D Reference&lt;/b&gt;
+              &lt;span&gt;三視圖／材質／3D base&lt;/span&gt;
+              &lt;small&gt;AI 輔助，3D 人工完稿&lt;/small&gt;
+            &lt;/button&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;ah-branch&quot;&gt;
+            &lt;button type=&quot;button&quot; class=&quot;ah-node&quot; data-owner=&quot;ai&quot; data-detail=&quot;AI 整理特效數量、形狀、貼圖素材與時序，生成黑底 FX sheet 與動態 reference；正式 Cocos 粒子、Shader 與效能調校由特效人員完成。&quot; aria-pressed=&quot;false&quot;&gt;
+              &lt;b&gt;⑤ 特效 Reference&lt;/b&gt;
+              &lt;span&gt;數量／形式／貼圖／時序&lt;/span&gt;
+              &lt;small&gt;AI 設計，Cocos 人工落地&lt;/small&gt;
+            &lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;ah-gatebar&quot; aria-label=&quot;Page 2 Gate&quot;&gt;
+          &lt;div&gt;&lt;b&gt;G1 方向鎖定&lt;/b&gt;&lt;span&gt;人工選定主角 DNA&lt;/span&gt;&lt;/div&gt;
+          &lt;div&gt;&lt;b&gt;G2 2D 母版通過&lt;/b&gt;&lt;span&gt;後續所有部門共用基準&lt;/span&gt;&lt;/div&gt;
+          &lt;div&gt;&lt;b&gt;G3 Reference 齊全&lt;/b&gt;&lt;span&gt;影片／後製／3D／特效可拆工項&lt;/span&gt;&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/section&gt;
+
+      &lt;div class=&quot;ah-flow-arrow&quot; aria-hidden=&quot;true&quot;&gt;→&lt;/div&gt;
+
+      &lt;section class=&quot;ah-stage stage-three&quot;&gt;
+        &lt;div class=&quot;ah-stage-title&quot;&gt;&lt;span class=&quot;ah-page&quot;&gt;Page 3&lt;/span&gt;&lt;b&gt;正式製作&lt;/b&gt;&lt;/div&gt;
+        &lt;button type=&quot;button&quot; class=&quot;ah-node&quot; data-owner=&quot;system&quot; data-detail=&quot;系統依核准的 2D 母版與各類 reference，自動產生 2D、影片／動畫、後製、3D、特效製作項目，帶入來源、DNA、交付物與驗收條件。&quot; aria-pressed=&quot;false&quot;&gt;
+          &lt;b&gt;自動形成製作項目&lt;/b&gt;
+          &lt;span&gt;2D／影片／後製／3D／特效&lt;/span&gt;
+          &lt;small&gt;系統負責&lt;/small&gt;
+        &lt;/button&gt;
+        &lt;button type=&quot;button&quot; class=&quot;ah-node&quot; data-owner=&quot;human&quot; data-detail=&quot;PM 或美術主管確認工種、Owner、排程、優先級與是否開工；AI 不可自行派工。&quot; aria-pressed=&quot;false&quot;&gt;
+          &lt;b&gt;派工與排程&lt;/b&gt;
+          &lt;span&gt;Owner、時程、優先級&lt;/span&gt;
+          &lt;small&gt;人工負責&lt;/small&gt;
+        &lt;/button&gt;
+        &lt;button type=&quot;button&quot; class=&quot;ah-node&quot; data-owner=&quot;human&quot; data-detail=&quot;正式 2D 修圖、3D 拓樸與材質、Spine 動畫、Cocos 特效與最終驗收仍由專業人員負責；AI 提供 reference 和重複性輔助。&quot; aria-pressed=&quot;false&quot;&gt;
+          &lt;b&gt;正式製作與驗收&lt;/b&gt;
+          &lt;span&gt;2D／3D／Spine／Cocos&lt;/span&gt;
+          &lt;small&gt;專業人員負責&lt;/small&gt;
+        &lt;/button&gt;
+      &lt;/section&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;card ah-detail&quot; aria-live=&quot;polite&quot;&gt;點選任一區塊，查看它為何屬於 AI、人工或系統。&lt;/div&gt;
+
+    &lt;section class=&quot;ah-hidden-work&quot; aria-label=&quot;流程底下的隱性工作&quot;&gt;
+      &lt;div class=&quot;ah-hidden-head&quot;&gt;
+        &lt;h3&gt;流程底下還有 3 層隱性工作&lt;/h3&gt;
+        &lt;span&gt;沒有這些，工具只能 Demo，不能長期穩定生產。&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;ah-hidden-grid&quot;&gt;
+        &lt;div class=&quot;ah-hidden-col ai&quot; data-owner=&quot;ai&quot;&gt;
+          &lt;h4&gt;隱性 AI 工作&lt;/h4&gt;
+          &lt;ul&gt;
+            &lt;li&gt;讀 PDF／XLSX／圖片，轉成共同資料 Schema&lt;/li&gt;
+            &lt;li&gt;辨識規格矛盾、缺漏與資產依賴&lt;/li&gt;
+            &lt;li&gt;依資產類型組合 Prompt、參考圖與禁止項&lt;/li&gt;
+            &lt;li&gt;比對候選與已鎖定 DNA，找出漂移與污染&lt;/li&gt;
+            &lt;li&gt;整理審查證據、修正建議與下一版差異&lt;/li&gt;
+            &lt;li&gt;分析操作紀錄，提出 UI／UX 簡化建議&lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;ah-hidden-col human&quot; data-owner=&quot;human&quot;&gt;
+          &lt;h4&gt;隱性人工工作&lt;/h4&gt;
+          &lt;ul&gt;
+            &lt;li&gt;定義哪些畫面與欄位才是真正決策點&lt;/li&gt;
+            &lt;li&gt;整理可信參考圖、品牌界線與驗收標準&lt;/li&gt;
+            &lt;li&gt;標註好／壞案例，留下可學習的具體原因&lt;/li&gt;
+            &lt;li&gt;校準 AI 審圖 Rubric 與例外處理權限&lt;/li&gt;
+            &lt;li&gt;確認 2D／3D／Spine／Cocos 的製作可行性&lt;/li&gt;
+            &lt;li&gt;核准新版規則與 UI／UX 是否真的更好用&lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;ah-hidden-col system&quot; data-owner=&quot;system&quot;&gt;
+          &lt;h4&gt;隱性系統工作&lt;/h4&gt;
+          &lt;ul&gt;
+            &lt;li&gt;保存舊候選、版本、人工決策與稽核紀錄&lt;/li&gt;
+            &lt;li&gt;管理生成佇列、Provider、失敗重試與成本&lt;/li&gt;
+            &lt;li&gt;執行尺寸、裁切、檔案、Schema 等硬性檢查&lt;/li&gt;
+            &lt;li&gt;維護 G0–G5 Gate，禁止跳過依賴直接派工&lt;/li&gt;
+            &lt;li&gt;輸出 JSON／Markdown／CSV／Excel 工項資料&lt;/li&gt;
+            &lt;li&gt;保存基準測試、品質分數與新舊版比較&lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+
+    &lt;section class=&quot;ah-cross-cutting&quot; aria-label=&quot;容易漏掉的橫向能力&quot;&gt;
+      &lt;div class=&quot;ah-hidden-head&quot;&gt;
+        &lt;h3&gt;另外要補上的 10 個橫向能力&lt;/h3&gt;
+        &lt;span&gt;它們不屬於單一 Page，卻會決定工具能不能真正上線。&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;ah-cross-grid&quot;&gt;
+        &lt;button type=&quot;button&quot; class=&quot;ah-node ah-risk&quot; data-owner=&quot;shared&quot; data-detail=&quot;規格版本更新時，系統要找出受影響的方向圖、2D、影片、3D、特效與工項，標記為待重審；人工決定哪些要重做。&quot; aria-pressed=&quot;false&quot;&gt;
+          &lt;b&gt;01 規格變更影響&lt;/b&gt;&lt;span&gt;改一處，知道哪些下游失效&lt;/span&gt;&lt;small&gt;人工＋系統&lt;/small&gt;
+        &lt;/button&gt;
+        &lt;button type=&quot;button&quot; class=&quot;ah-node ah-risk&quot; data-owner=&quot;ai&quot; data-detail=&quot;AI 必須輸出不確定度與缺資料，低信心時改成向人工提問，不能用看似完整的圖掩蓋理解錯誤。&quot; aria-pressed=&quot;false&quot;&gt;
+          &lt;b&gt;02 不確定性分流&lt;/b&gt;&lt;span&gt;低信心先問，不盲目生成&lt;/span&gt;&lt;small&gt;AI 負責揭露&lt;/small&gt;
+        &lt;/button&gt;
+        &lt;button type=&quot;button&quot; class=&quot;ah-node ah-risk&quot; data-owner=&quot;shared&quot; data-detail=&quot;每個部門要先定技術預算：解析度、貼圖尺寸、面數、骨骼數、Draw Call、記憶體、FPS；系統檢查，技術人員核准。&quot; aria-pressed=&quot;false&quot;&gt;
+          &lt;b&gt;03 製作技術預算&lt;/b&gt;&lt;span&gt;貼圖／面數／骨骼／效能&lt;/span&gt;&lt;small&gt;技術人工＋系統&lt;/small&gt;
+        &lt;/button&gt;
+        &lt;button type=&quot;button&quot; class=&quot;ah-node ah-risk&quot; data-owner=&quot;human&quot; data-detail=&quot;最終資產要在遊戲引擎與真實裝置驗證：尺寸、錨點、層級、狀態機、壓縮、可讀性、效能與各比例安全區。&quot; aria-pressed=&quot;false&quot;&gt;
+          &lt;b&gt;04 遊戲內整合 QA&lt;/b&gt;&lt;span&gt;不是圖好看就算完成&lt;/span&gt;&lt;small&gt;技術與美術人工&lt;/small&gt;
+        &lt;/button&gt;
+        &lt;button type=&quot;button&quot; class=&quot;ah-node ah-risk&quot; data-owner=&quot;shared&quot; data-detail=&quot;所有參考圖與生成結果都要保存來源、授權、品牌限制、敏感內容檢查與可否商用紀錄，避免後期法務風險。&quot; aria-pressed=&quot;false&quot;&gt;
+          &lt;b&gt;05 來源與法務&lt;/b&gt;&lt;span&gt;授權／品牌／可商用／溯源&lt;/span&gt;&lt;small&gt;人工＋系統&lt;/small&gt;
+        &lt;/button&gt;
+        &lt;button type=&quot;button&quot; class=&quot;ah-node ah-risk&quot; data-owner=&quot;system&quot; data-detail=&quot;設定每案與每工項的生成額度、排隊上限、逾時、重試、Provider 失效與人工 fallback；否則工具會在最忙時失控。&quot; aria-pressed=&quot;false&quot;&gt;
+          &lt;b&gt;06 成本與可用性&lt;/b&gt;&lt;span&gt;額度／佇列／逾時／Fallback&lt;/span&gt;&lt;small&gt;系統負責&lt;/small&gt;
+        &lt;/button&gt;
+        &lt;button type=&quot;button&quot; class=&quot;ah-node ah-risk&quot; data-owner=&quot;shared&quot; data-detail=&quot;要定義誰可以鎖 DNA、改規格、刪候選、送正式工項、核准例外；每次重要操作都留下人、時間與理由。&quot; aria-pressed=&quot;false&quot;&gt;
+          &lt;b&gt;07 權限與決策權&lt;/b&gt;&lt;span&gt;誰能看、改、鎖、刪、派工&lt;/span&gt;&lt;small&gt;管理人工＋系統&lt;/small&gt;
+        &lt;/button&gt;
+        &lt;button type=&quot;button&quot; class=&quot;ah-node ah-risk&quot; data-owner=&quot;system&quot; data-detail=&quot;每張圖與工項要能重現：模型、Prompt、參考圖、規則版本、Provider、參數與時間都要保存，出問題才能回滾。&quot; aria-pressed=&quot;false&quot;&gt;
+          &lt;b&gt;08 可重現與回滾&lt;/b&gt;&lt;span&gt;知道這版怎麼生、可退回&lt;/span&gt;&lt;small&gt;系統負責&lt;/small&gt;
+        &lt;/button&gt;
+        &lt;button type=&quot;button&quot; class=&quot;ah-node ah-risk&quot; data-owner=&quot;human&quot; data-detail=&quot;多語文字長度、不同市場文化、色弱辨識、閃光與可讀性、裝置安全區都要進驗收；這些不能只靠產圖模型判斷。&quot; aria-pressed=&quot;false&quot;&gt;
+          &lt;b&gt;09 市場與可及性&lt;/b&gt;&lt;span&gt;多語／文化／色弱／安全區&lt;/span&gt;&lt;small&gt;人工最終核准&lt;/small&gt;
+        &lt;/button&gt;
+        &lt;button type=&quot;button&quot; class=&quot;ah-node ah-risk&quot; data-owner=&quot;system&quot; data-detail=&quot;持續量測決策時間、一次通過率、重工率、人工操作時間、每張核准圖成本與產線採用率，才能知道 AI 是否真的提升效率。&quot; aria-pressed=&quot;false&quot;&gt;
+          &lt;b&gt;10 成效指標&lt;/b&gt;&lt;span&gt;時間／品質／重工／成本／採用&lt;/span&gt;&lt;small&gt;系統量測、人工判讀&lt;/small&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+
+    &lt;section class=&quot;ah-loop&quot; aria-label=&quot;AI 規則與迭代訓練閉環&quot;&gt;
+      &lt;div class=&quot;ah-loop-head&quot;&gt;
+        &lt;h3&gt;AI 規則與迭代訓練閉環&lt;/h3&gt;
+        &lt;span&gt;不是一直聊天就會變好：先累積標註、版本化規則、固定測試；資料足夠後才考慮微調模型。&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;ah-loop-track&quot;&gt;
+        &lt;div class=&quot;ah-loop-step human&quot;&gt;&lt;b&gt;① 收集人工判斷&lt;/b&gt;&lt;span&gt;採用、淘汰、修正原因&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;ah-loop-step ai&quot;&gt;&lt;b&gt;② 結構化錯誤標籤&lt;/b&gt;&lt;span&gt;裁切、DNA 漂移、不可讀、污染&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;ah-loop-step ai&quot;&gt;&lt;b&gt;③ 更新規則資產&lt;/b&gt;&lt;span&gt;Prompt、範例、Rubric、禁止項&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;ah-loop-step system&quot;&gt;&lt;b&gt;④ 回歸測試&lt;/b&gt;&lt;span&gt;舊版 vs 新版、固定案例、Gate&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;ah-loop-step human&quot;&gt;&lt;b&gt;⑤ 人工確認上線&lt;/b&gt;&lt;span&gt;品質真的提升才換版本&lt;/span&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+
+  &lt;script&gt;
+    (() =&gt; {
+      const root = document.getElementById(&#x27;ai-human-fishgame-workflow&#x27;);
+      const content = root.querySelector(&#x27;.ah-content&#x27;);
+      const focusButtons = Array.from(root.querySelectorAll(&#x27;[data-focus]&#x27;));
+
+      function setFocus(value) {
+        content.classList.remove(&#x27;ah-focus-ai&#x27;, &#x27;ah-focus-human&#x27;, &#x27;ah-focus-system&#x27;);
+        if (value !== &#x27;all&#x27;) content.classList.add(`ah-focus-${value}`);
+        focusButtons.forEach((button) =&gt; {
+          const active = button.dataset.focus === value;
+          button.setAttribute(&#x27;aria-pressed&#x27;, String(active));
+          button.classList.toggle(&#x27;btn-primary&#x27;, active);
+        });
+      }
+
+      focusButtons.forEach((button) =&gt; {
+        button.addEventListener(&#x27;click&#x27;, () =&gt; setFocus(button.dataset.focus));
+      });
+
+      root.querySelectorAll(&#x27;.ah-node&#x27;).forEach((node) =&gt; {
+        node.addEventListener(&#x27;click&#x27;, () =&gt; {
+          root.querySelectorAll(&#x27;.ah-node&#x27;).forEach((item) =&gt; item.setAttribute(&#x27;aria-pressed&#x27;, &#x27;false&#x27;));
+          node.setAttribute(&#x27;aria-pressed&#x27;, &#x27;true&#x27;);
+          root.querySelector(&#x27;.ah-detail&#x27;).textContent = node.dataset.detail;
+        });
+      });
+    })();
+  &lt;/script&gt;
+&lt;/div&gt;
+
+&lt;script src=&quot;https://unpkg.com/@floating-ui/core@1.7.3/dist/floating-ui.core.umd.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://unpkg.com/@floating-ui/dom@1.7.4/dist/floating-ui.dom.umd.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(() =&gt; {
+  if (window.FloatingUIDOM == null) {
+    return;
+  }
+  const { autoUpdate, computePosition, flip, offset, shift, size } =
+    window.FloatingUIDOM;
+  const tooltipPlacements = new Set([&quot;top&quot;, &quot;right&quot;, &quot;bottom&quot;, &quot;left&quot;]);
+  const tooltipId = `codex-visualization-tooltip-${
+    window.crypto?.randomUUID?.() ?? Date.now().toString(36)
+  }`;
+  const tooltipGap = 5;
+  const hoverDelay = 700;
+  const skipDelay = 300;
+  let activeTrigger = null;
+  let pendingTrigger = null;
+  let tooltip = null;
+  let openTimeout = null;
+  let autoUpdateCleanup = null;
+  let positionRequest = 0;
+  let skipDelayUntil = 0;
+
+  const getTrigger = (target) =&gt;
+    target?.nodeType === Node.ELEMENT_NODE
+      ? target.closest(&quot;[data-tooltip]&quot;)
+      : null;
+  const containsTarget = (trigger, target) =&gt;
+    target?.nodeType != null &amp;&amp; trigger.contains(target);
+  const getContent = (trigger) =&gt;
+    trigger.getAttribute(&quot;data-tooltip&quot;)?.trim() ?? &quot;&quot;;
+  const getPlacement = (trigger) =&gt; {
+    const placement = trigger.getAttribute(&quot;data-tooltip-placement&quot;);
+    return tooltipPlacements.has(placement) ? placement : &quot;top&quot;;
+  };
+  const getTooltip = () =&gt; {
+    if (tooltip == null) {
+      tooltip = document.createElement(&quot;div&quot;);
+      tooltip.id = tooltipId;
+      tooltip.className = &quot;tooltip&quot;;
+      tooltip.setAttribute(&quot;role&quot;, &quot;tooltip&quot;);
+    }
+    return tooltip;
+  };
+  const setDescribedBy = (trigger, described) =&gt; {
+    const ids = new Set(
+      (trigger.getAttribute(&quot;aria-describedby&quot;) ?? &quot;&quot;)
+        .split(/\s+/)
+        .filter(Boolean),
+    );
+    if (described) {
+      ids.add(tooltipId);
+    } else {
+      ids.delete(tooltipId);
+    }
+    if (ids.size === 0) {
+      trigger.removeAttribute(&quot;aria-describedby&quot;);
+    } else {
+      trigger.setAttribute(&quot;aria-describedby&quot;, [...ids].join(&quot; &quot;));
+    }
+  };
+  const clearOpenTimeout = () =&gt; {
+    if (openTimeout != null) {
+      window.clearTimeout(openTimeout);
+      openTimeout = null;
+    }
+    pendingTrigger = null;
+  };
+  const closeTooltip = (activateSkipDelay = true) =&gt; {
+    clearOpenTimeout();
+    positionRequest += 1;
+    autoUpdateCleanup?.();
+    autoUpdateCleanup = null;
+    if (activeTrigger == null) {
+      return;
+    }
+    setDescribedBy(activeTrigger, false);
+    activeTrigger = null;
+    tooltip?.remove();
+    if (activateSkipDelay) {
+      skipDelayUntil = Date.now() + skipDelay;
+    }
+  };
+  const updatePosition = (trigger, floating) =&gt; {
+    const request = ++positionRequest;
+    void computePosition(trigger, floating, {
+      middleware: [
+        offset(tooltipGap),
+        flip({ padding: tooltipGap }),
+        shift({ padding: tooltipGap }),
+        size({
+          padding: tooltipGap,
+          apply({ availableHeight, availableWidth, elements }) {
+            elements.floating.style.setProperty(
+              &quot;--tooltip-available-width&quot;,
+              `${Math.max(0, availableWidth)}px`,
+            );
+            elements.floating.style.setProperty(
+              &quot;--tooltip-available-height&quot;,
+              `${Math.max(0, availableHeight)}px`,
+            );
+          },
+        }),
+      ],
+      placement: getPlacement(trigger),
+      strategy: &quot;fixed&quot;,
+    })
+      .then(({ x, y }) =&gt; {
+        if (activeTrigger !== trigger || request !== positionRequest) {
+          return;
+        }
+        const scale = window.devicePixelRatio || 1;
+        floating.style.transform = `translate(${Math.round(x * scale) / scale}px, ${Math.round(y * scale) / scale}px)`;
+        floating.style.visibility = &quot;visible&quot;;
+      })
+      .catch(() =&gt; {
+        if (activeTrigger === trigger &amp;&amp; request === positionRequest) {
+          closeTooltip(false);
+        }
+      });
+  };
+  const openTooltip = (trigger) =&gt; {
+    const content = getContent(trigger);
+    if (!trigger.isConnected || content.length === 0) {
+      return;
+    }
+    clearOpenTimeout();
+    if (activeTrigger === trigger) {
+      return;
+    }
+    closeTooltip();
+    const floating = getTooltip();
+    floating.textContent = content;
+    floating.style.visibility = &quot;hidden&quot;;
+    floating.style.transform = &quot;translate(0, 0)&quot;;
+    document.body.appendChild(floating);
+    activeTrigger = trigger;
+    setDescribedBy(trigger, true);
+    autoUpdateCleanup = autoUpdate(trigger, floating, () =&gt; {
+      updatePosition(trigger, floating);
+    });
+  };
+  const requestOpen = (trigger, immediate = false) =&gt; {
+    if (
+      getContent(trigger).length === 0 ||
+      activeTrigger === trigger ||
+      pendingTrigger === trigger
+    ) {
+      return;
+    }
+    clearOpenTimeout();
+    pendingTrigger = trigger;
+    const delay =
+      immediate || activeTrigger != null || Date.now() &lt; skipDelayUntil
+        ? 0
+        : hoverDelay;
+    if (delay === 0) {
+      openTooltip(trigger);
+      return;
+    }
+    openTimeout = window.setTimeout(() =&gt; {
+      openTimeout = null;
+      pendingTrigger = null;
+      openTooltip(trigger);
+    }, delay);
+  };
+  const handlePointerOpen = (event) =&gt; {
+    if (event.pointerType === &quot;touch&quot;) {
+      return;
+    }
+    const trigger = getTrigger(event.target);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    requestOpen(trigger);
+  };
+  const handleLeave = (event) =&gt; {
+    const trigger = getTrigger(event.target);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const handleFocusIn = (event) =&gt; {
+    const trigger = getTrigger(event.target);
+    if (trigger?.matches(&quot;:focus-visible&quot;)) {
+      requestOpen(trigger, true);
+    }
+  };
+  const handleKeyDown = (event) =&gt; {
+    if (event.key === &quot;Escape&quot;) {
+      closeTooltip();
+    }
+  };
+  const handleContextMenu = (event) =&gt; {
+    const trigger = getTrigger(event.target);
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const destroy = () =&gt; {
+    closeTooltip(false);
+    document.removeEventListener(&quot;pointerover&quot;, handlePointerOpen);
+    document.removeEventListener(&quot;pointerout&quot;, handleLeave);
+    document.removeEventListener(&quot;focusin&quot;, handleFocusIn);
+    document.removeEventListener(&quot;focusout&quot;, handleLeave);
+    document.removeEventListener(&quot;keydown&quot;, handleKeyDown);
+    document.removeEventListener(&quot;contextmenu&quot;, handleContextMenu);
+    tooltip = null;
+  };
+
+  document.addEventListener(&quot;pointerover&quot;, handlePointerOpen);
+  document.addEventListener(&quot;pointerout&quot;, handleLeave);
+  document.addEventListener(&quot;focusin&quot;, handleFocusIn);
+  document.addEventListener(&quot;focusout&quot;, handleLeave);
+  document.addEventListener(&quot;keydown&quot;, handleKeyDown);
+  document.addEventListener(&quot;contextmenu&quot;, handleContextMenu);
+  window.addEventListener(&quot;pagehide&quot;, destroy, { once: true });
+})();
+&lt;/script&gt;
+&lt;script id=&quot;codex-visualization-lucide&quot; async src=&quot;https://unpkg.com/lucide@1.17.0/dist/umd/lucide.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(() =&gt; {
+  const initialize = () =&gt; {
+    globalThis.lucide?.createIcons({ attrs: { width: 16, height: 16 } });
+  };
+  if (globalThis.lucide != null) {
+    initialize();
+    return;
+  }
+  document
+    .getElementById(&quot;codex-visualization-lucide&quot;)
+    ?.addEventListener(&quot;load&quot;, initialize, { once: true });
+})();
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</body>
+</html>
+
